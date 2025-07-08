@@ -15,14 +15,14 @@ import { TokenRepository } from './infras/token.repository';
       secret: process.env.JWT_SECRET || 'jwt-secret',
       signOptions: { expiresIn: '7d' },
     }),
-    MongooseModule.forRoot('mongodb://localhost:27017/ecommerce'),
+    MongooseModule.forRoot(process.env.MONGODB_URL ?? 'mongodb://localhost:27017/ecommerce'),
     MongooseModule.forFeature([{ name: 'Token', schema: TokenSchema }]),
     ClientsModule.register([
       {
         name: CLIENTS.User_Client,
         transport: Transport.RMQ,
         options: {
-          urls: ['amqp://vtonomy:123456@localhost:5672'],
+          urls: [process.env.RABBITMQ_URL ?? 'amqp://vtonomy:123456@localhost:5672'],
           queue: 'user_queue',
           queueOptions: {
             durable: false,
@@ -33,7 +33,7 @@ import { TokenRepository } from './infras/token.repository';
         name: CLIENTS.Auth_Client,
         transport: Transport.RMQ,
         options: {
-          urls: ['amqp://vtonomy:123456@localhost:5672'],
+          urls: [process.env.RABBITMQ_URL ?? 'amqp://vtonomy:123456@localhost:5672'],
           queue: 'auth_queue',
           queueOptions: {
             durable: false,
