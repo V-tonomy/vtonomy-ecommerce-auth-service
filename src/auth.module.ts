@@ -40,6 +40,17 @@ import { TokenRepository } from './infras/token.repository';
           },
         },
       },
+      {
+        name: CLIENTS.Notification_Client,
+        transport: Transport.RMQ,
+        options: {
+          urls: [process.env.RABBITMQ_URL ?? 'amqp://vtonomy:123456@localhost:5672'],
+          queue: 'notification_queue',
+          queueOptions: {
+            durable: false,
+          },
+        },
+      },
     ]),
   ],
   controllers: [AuthController],

@@ -9,7 +9,7 @@ import { AuthRefreshTokenCommand } from '../command/auth-refresh-token';
 import { AuthPayload } from '../dto/auth.dto';
 
 @CommandHandler(AuthRefreshTokenCommand)
-export class AuthRegisterHandler
+export class AuthRefreshTokenHandler
   implements ICommandHandler<AuthRefreshTokenCommand>
 {
   constructor(
@@ -22,7 +22,7 @@ export class AuthRegisterHandler
   async execute(command: AuthRefreshTokenCommand): Promise<any> {
     const { refreshToken } = command.props;
     const refreshTokenSecret =
-      process.env.REFRESH_TOKEN_SECRET ?? 'refreshToken';
+      process.env.REFRESH_TOKEN_SECRET ?? 'refresh_token_secret';
 
     let payload: AuthPayload;
     try {

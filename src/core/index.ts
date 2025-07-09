@@ -1,10 +1,13 @@
-import { AuthLoginHandler, RegisterHandler } from './handler';
-import { AuthRegisterHandler } from './handler/auth-refresh-token.cmd.handler';
-import { AuthVerifyHandler } from './handler/auth-verify.cmd.handler';
+import {
+  AuthLoginHandler,
+  AuthRefreshTokenHandler,
+  AuthRegisterHandler,
+  AuthVerifyTokenHandler,
+} from './handler';
 
 export const AUTH_HANDLER = [
-  RegisterHandler,
   AuthLoginHandler,
-  AuthVerifyHandler,
+  AuthVerifyTokenHandler,
   AuthRegisterHandler,
+  AuthRefreshTokenHandler,
 ];

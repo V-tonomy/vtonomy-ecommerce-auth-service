@@ -44,10 +44,16 @@ export class AuthRefreshTokenDTO {
   refreshToken: string;
 }
 
-export class AuthVerifyDTO {
+export class AuthVerifyTokenDTO {
   @IsString()
   @IsNotEmpty()
   token: string;
+}
+
+export class AuthVerifyCodeDTO {
+  @IsString()
+  @IsNotEmpty()
+  code: string;
 }
 
 export class AuthPayload {

@@ -4,14 +4,14 @@ import { MessagePattern, Payload } from '@nestjs/microservices';
 import {
   AuthLoginCommand,
   AuthRegisterCommand,
-  AuthVerifyCommand,
+  AuthVerifyTokenCommand,
 } from 'src/core/command';
 import { AuthRefreshTokenCommand } from 'src/core/command/auth-refresh-token';
 import {
   AuthLoginDTO,
   AuthRefreshTokenDTO,
   AuthRegisterDTO,
-  AuthVerifyDTO,
+  AuthVerifyTokenDTO,
 } from 'src/core/dto/auth.dto';
 import { MessageResponseDTO, ResponseDTO } from 'vtonomy';
 
@@ -49,9 +49,9 @@ export class AuthController {
   }
 
   @MessagePattern('auth.verify-token')
-  async verify(@Payload() body: AuthVerifyDTO) {
+  async verify(@Payload() body: AuthVerifyTokenDTO) {
     const payload = await this.commandBus.execute(
-      AuthVerifyCommand.create(body),
+      AuthVerifyTokenCommand.create(body),
     );
 
     return new ResponseDTO(payload);
