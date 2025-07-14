@@ -54,7 +54,7 @@ export class AuthRefreshTokenHandler
         role: user.role,
       },
       {
-        secret: process.env.ACCESS_TOKEN_SECRET ?? 'accessToken',
+        secret: process.env.ACCESS_TOKEN_SECRET ?? 'access_token_secret',
         expiresIn: process.env.ACCESS_TOKEN_LIFE ?? '1h',
       },
     );

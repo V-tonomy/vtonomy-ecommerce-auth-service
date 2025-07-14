@@ -12,7 +12,7 @@ export class AuthVerifyTokenHandler implements ICommandHandler<AuthVerifyTokenCo
 
     try {
       const payload = this.jwtService.verify(token, {
-        secret: process.env.ACCESS_TOKEN_SECRET || 'access-token-secret',
+        secret: process.env.ACCESS_TOKEN_SECRET ?? 'access_token_secret',
       });
 
       return payload;

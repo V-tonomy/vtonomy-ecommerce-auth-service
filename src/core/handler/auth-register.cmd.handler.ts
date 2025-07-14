@@ -3,8 +3,8 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { JwtService } from '@nestjs/jwt';
 import { ClientProxy } from '@nestjs/microservices';
 import * as bcrypt from 'bcrypt';
-import { firstValueFrom } from 'rxjs';
-import { CLIENTS, User_Created } from 'vtonomy';
+import { firstValueFrom, timeout } from 'rxjs';
+import { CLIENTS, sendWithTimeout, User_Created } from 'vtonomy';
 import { AuthRegisterCommand } from '../command';
 
 @CommandHandler(AuthRegisterCommand)
@@ -15,7 +15,6 @@ export class AuthRegisterHandler
     @Inject(CLIENTS.User_Client) private readonly userClient: ClientProxy,
     @Inject(CLIENTS.Notification_Client)
     private readonly notificationClient: ClientProxy,
-    @Inject(CLIENTS.User_Client) private readonly userService: ClientProxy,
     private readonly jwtService: JwtService,
   ) {}
 
@@ -28,7 +27,7 @@ export class AuthRegisterHandler
       role,
     };
 
-    const res = await firstValueFrom(this.userClient.send(User_Created, user));
+    const res = await sendWithTimeout(this.userClient.send(User_Created, user));
     if (!res.success) {
       throw new ConflictException(res.error);
     }

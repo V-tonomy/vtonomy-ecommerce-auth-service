@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import {
@@ -7,10 +7,12 @@ import {
   AuthVerifyTokenCommand,
 } from 'src/core/command';
 import { AuthRefreshTokenCommand } from 'src/core/command/auth-refresh-token';
+import { AuthVerifyCodeCommand } from 'src/core/command/auth-verify-email.cmd';
 import {
   AuthLoginDTO,
   AuthRefreshTokenDTO,
   AuthRegisterDTO,
+  AuthVerifyCodeDTO,
   AuthVerifyTokenDTO,
 } from 'src/core/dto/auth.dto';
 import { MessageResponseDTO, ResponseDTO } from 'vtonomy';
@@ -46,6 +48,19 @@ export class AuthController {
     );
 
     return { data: accessToken };
+  }
+
+  @Get('verifyCode')
+  async verifyCode(@Query('code') code: string) {
+    console.log("🚀 ~ AuthController ~ verifyCode ~ code:", code)
+    const data: AuthVerifyCodeDTO = {
+      code,
+    };
+    const payload = await this.commandBus.execute(
+      AuthVerifyCodeCommand.create(data),
+    );
+
+    return new ResponseDTO(payload);
   }
 
   @MessagePattern('auth.verify-token')
