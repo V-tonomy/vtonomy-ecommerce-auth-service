@@ -24,9 +24,6 @@ import { TokenRepository } from './infras/token.repository';
         options: {
           urls: [process.env.RABBITMQ_URL ?? 'amqp://vtonomy:123456@localhost:5672'],
           queue: 'user_queue',
-          queueOptions: {
-            durable: false,
-          },
         },
       },
       {
@@ -36,7 +33,7 @@ import { TokenRepository } from './infras/token.repository';
           urls: [process.env.RABBITMQ_URL ?? 'amqp://vtonomy:123456@localhost:5672'],
           queue: 'auth_queue',
           queueOptions: {
-            durable: false,
+            durable: true,
           },
         },
       },
@@ -47,7 +44,7 @@ import { TokenRepository } from './infras/token.repository';
           urls: [process.env.RABBITMQ_URL ?? 'amqp://vtonomy:123456@localhost:5672'],
           queue: 'notification_queue',
           queueOptions: {
-            durable: false,
+            durable: true,
           },
         },
       },

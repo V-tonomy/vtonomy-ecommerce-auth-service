@@ -2,9 +2,8 @@ import { Inject, UnauthorizedException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { JwtService } from '@nestjs/jwt';
 import { ClientProxy } from '@nestjs/microservices';
-import { firstValueFrom } from 'rxjs';
 import { ITokenRepository } from 'src/domain/token.interface';
-import { CLIENTS, User_GetByEmail } from 'vtonomy';
+import { CLIENTS, sendWithTimeout, User_GetByEmail } from 'vtonomy';
 import { AuthRefreshTokenCommand } from '../command/auth-refresh-token';
 import { AuthPayload } from '../dto/auth.dto';
 
@@ -36,7 +35,7 @@ export class AuthRefreshTokenHandler
 
     const { email, role } = payload;
 
-    const res = await firstValueFrom(
+    const res = await sendWithTimeout(
       this.userService.send(User_GetByEmail, { email, role }),
     );
 

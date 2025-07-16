@@ -3,7 +3,6 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { JwtService } from '@nestjs/jwt';
 import { ClientProxy } from '@nestjs/microservices';
 import * as bcrypt from 'bcrypt';
-import { firstValueFrom, timeout } from 'rxjs';
 import { CLIENTS, sendWithTimeout, User_Created } from 'vtonomy';
 import { AuthRegisterCommand } from '../command';
 

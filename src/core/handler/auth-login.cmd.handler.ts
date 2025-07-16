@@ -9,10 +9,9 @@ import { JwtService } from '@nestjs/jwt';
 import { ClientProxy } from '@nestjs/microservices';
 import * as bcrypt from 'bcrypt';
 import { randomUUID } from 'crypto';
-import { firstValueFrom } from 'rxjs';
 import { Token } from 'src/domain/token.entity';
 import { ITokenRepository } from 'src/domain/token.interface';
-import { CLIENTS, User_GetByEmail } from 'vtonomy';
+import { CLIENTS, sendWithTimeout, User_GetByEmail } from 'vtonomy';
 import { AuthLoginCommand } from '../command';
 
 @CommandHandler(AuthLoginCommand)
@@ -27,7 +26,7 @@ export class AuthLoginHandler implements ICommandHandler<AuthLoginCommand> {
   async execute(command: AuthLoginCommand): Promise<any> {
     const { email, password, role } = command.props;
 
-    const res = await firstValueFrom(
+    const res = await sendWithTimeout(
       this.userService.send(User_GetByEmail, { email, role }),
     );
 

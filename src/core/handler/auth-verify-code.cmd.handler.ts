@@ -2,8 +2,7 @@ import { Inject, UnauthorizedException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { JwtService } from '@nestjs/jwt';
 import { ClientProxy } from '@nestjs/microservices';
-import { firstValueFrom } from 'rxjs';
-import { CLIENTS, User_EmailVerified } from 'vtonomy';
+import { CLIENTS, sendWithTimeout, User_EmailVerified } from 'vtonomy';
 import { AuthVerifyCodeCommand } from '../command/auth-verify-email.cmd';
 
 @CommandHandler(AuthVerifyCodeCommand)
@@ -24,7 +23,7 @@ export class AuthVerifyCodeHandler
           process.env.EMAIL_VERIFICATION_SECRET ?? 'email_verification_secret',
       });
 
-      await firstValueFrom(
+      await sendWithTimeout(
         this.userService.send(User_EmailVerified, {
           id,
           isEmailVerified: true,
