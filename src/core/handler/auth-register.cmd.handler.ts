@@ -3,7 +3,7 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { JwtService } from '@nestjs/jwt';
 import { ClientProxy } from '@nestjs/microservices';
 import * as bcrypt from 'bcrypt';
-import { CLIENTS, sendWithTimeout, User_Created } from 'vtonomy';
+import { CLIENTS, ISagaService, sendWithTimeout, User_Created } from 'vtonomy';
 import { AuthRegisterCommand } from '../command';
 
 @CommandHandler(AuthRegisterCommand)
@@ -14,7 +14,7 @@ export class AuthRegisterHandler
     @Inject(CLIENTS.User_Client) private readonly userClient: ClientProxy,
     @Inject(CLIENTS.Notification_Client)
     private readonly notificationClient: ClientProxy,
-    private readonly jwtService: JwtService,
+    private readonly jwtService: JwtService
   ) {}
 
   async execute(command: AuthRegisterCommand): Promise<any> {
